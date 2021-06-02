@@ -8,7 +8,7 @@ from flask import send_from_directory
 app = Flask(__name__)
 io = SocketIO(app)
 
-@app.route('/Plebot/favicon.ico')
+@app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
@@ -25,5 +25,6 @@ def send_message_handler(msg):
     emit('getMessage', plebotMessage(str(msg)), json=True)
 
 if __name__ == '__main__':
-    io.run(app, debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    io.run(app, host='0.0.0.0', port=port)
 
